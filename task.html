@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+       #container{
+          overflow:auto ;
+        }
+       #playList{
+         width:400px;
+         margin-left: 5%;
+         border: 2px solid black;
+         text-align: center;
+         float: left;         
+       }
+       
+       #playList>video{
+        width:90%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+       }
+       #containterVideo{
+         
+          width: 50%;
+          margin-left: 10%;
+          border: 2px solid black;
+          text-align: center;
+          float: right;
+          position: relative;
+       }
+       #controlers{
+          text-align: center;
+       }
+       #containterVideo>video{
+          width: 90%;
+          margin-top: 10px;
+       }
+       img{
+         width: 30px;
+         height: 20px;
+       }
+       input{
+        transition-duration:.4s ;
+       }
+       
+        #rangVideo{
+
+         width: 80%;
+         display: block;
+         position: absolute;
+         top:75%;
+         opacity: .1;
+         left: 10%;
+       }
+       #rangVideo:hover{
+        opacity: 1;
+       }
+    </style>
+</head>
+<body>
+    <div id="container">
+    <div id="playList">
+        <video src="./resources/3.mp4" id="vd1" onclick="changeVideo(this)"></video>
+        <video src="./resources/2021-02-22 12-29-24_Trim.mp4" id="vd2" onclick="changeVideo(this)"></video>
+        <video src="./resources/2_Trim.mp4" id="vd3" onclick="changeVideo(this)"></video>
+    </div> 
+    <div id="containterVideo">
+        <video src="./resources/2021-02-22 12-29-24_Trim.mp4" id="vd4">           
+        </video>
+        <nav id="controlers">
+            <input type="range" value="0" min="0" max="100" id="rangVideo">
+            <img src="./resources/1.jpg" id="img1" onclick="playVideo()">
+            <img src="./resources/2.jpg" id="img2" onclick="pause()">
+            <img src="./resources/3.jpg" id="img3" onclick="stop()">
+            <img src="./resources/4.jpg" id="img4" >
+            <input type="range" value="0" min="0" max="100" id="rang1"><br><br>
+            <input type="range" value="0" min="25" max="100" id="rang2"><label>Speed</label>
+        </nav>
+    </div>
+</div>
+  <script>
+     var video =document.getElementById('vd4');   
+     var RangeSound=document.getElementById('rang1');
+     var RangeSpeed=document.getElementById('rang2');
+
+     var rangeVideo=document.getElementById('rangVideo');
+
+     function playVideo(){
+        video.play();
+     }
+     function pause(){
+       video.pause();
+     }
+     function stop(){
+        video.pause();
+        video.currentTime=0;
+     }
+     RangeSound.addEventListener('change',function(){
+        video.volume=(RangeSound.value/100)*1;
+     })
+
+     function changeVideo(vid)
+     {
+        console.log(vid.src);
+        video.setAttribute('src',vid.src);
+     }
+     RangeSpeed.addEventListener('change',function(){
+        video.playbackRate = (RangeSpeed.value/100)*4;
+     })
+
+     rangeVideo.addEventListener('change',function(){
+        video.currentTime = (rangeVideo.value/100) * video.duration ;
+     })
+
+     video.addEventListener('timeupdate',function(){
+        rangeVideo.value =video.currentTime/video.duration *100 ;
+     })
+  </script>
+</body>
+</html>
